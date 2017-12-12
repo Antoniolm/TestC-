@@ -6,13 +6,12 @@ CFLAGS  = -g -Wall
 
 #Target
 TARGET = valgrindTest
+DEPENDENCIES = object.cpp
 
 all: $(TARGET)
 
 $(TARGET): $(TARGET).cpp
-	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).cpp
+	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).cpp $(DEPENDENCIES)
 
 clean:
 	$(RM) $(TARGET)
-
-#g++ -o myprogram class1.cpp class2.cpp class3.cpp main.cpp

@@ -20,19 +20,27 @@
 #include <stdlib.h>
 #include "object.h"
 
- int* function1(void)
- {
-    int* x = (int*) malloc(10 * sizeof(int));
-    for(int i=0;i<10;i++)
-      x[i]=i;
+Object::Object(){
+  int* dataList = (int*) malloc(10 * sizeof(int));
 
-    return x;
- }
+  for(int i=0;i<10;i++)
+    dataList[i]=i;
+}
 
+//************************************************//
 
- int main(void)
- {
-    Object object();
-    
-    return 0;
- }
+Object::~Object(){
+  free(dataList);
+}
+
+//************************************************//
+
+int Object::getData(int i){
+  return dataList[i];
+}
+
+//************************************************//
+
+int* Object::getDataList(){
+  return dataList;
+}
