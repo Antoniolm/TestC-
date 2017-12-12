@@ -20,10 +20,11 @@
 #include <stdlib.h>
 #include "object.h"
 
-Object::Object(){
-  int* dataList = (int*) malloc(10 * sizeof(int));
+Object::Object(int sz){
+  size=sz;
+  dataList = (int*) malloc(size * sizeof(int));
 
-  for(int i=0;i<10;i++)
+  for(int i=0;i<size;i++)
     dataList[i]=i;
 }
 
@@ -43,4 +44,10 @@ int Object::getData(int i){
 
 int* Object::getDataList(){
   return dataList;
+}
+
+//************************************************//
+
+int Object::getSize(){
+  return size;
 }

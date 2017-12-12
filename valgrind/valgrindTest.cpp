@@ -18,21 +18,38 @@
 // *********************************************************************
 
 #include <stdlib.h>
+#include <iostream>
 #include "object.h"
 
- int* function1(void)
- {
-    int* x = (int*) malloc(10 * sizeof(int));
-    for(int i=0;i<10;i++)
-      x[i]=i;
+using namespace std;
 
-    return x;
- }
+//////////////////////////////////////////////////////////////////////////
+/**
+ *  It will test if the object is created correctly
+ *  \return bool
+ */
+//////////////////////////////////////////////////////////////////////////
+bool testObject(Object & object){
+  bool result=true;
+  int size=object.getSize();
 
+  for(int i=0;i<size;i++){
+    if(object.getData(i)!=i)
+      result=false;
+  }
+
+  return result;
+
+}
 
  int main(void)
  {
-    Object object();
-    
+    Object object(10);
+
+    if(testObject(object))
+      cout<<"Test passed"<<endl;
+    else
+      cout<< "Test failed"<<endl;
+
     return 0;
  }
