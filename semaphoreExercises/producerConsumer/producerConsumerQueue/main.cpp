@@ -25,27 +25,43 @@ using namespace std;
 
 const int tam_vec=10;
 int vector[tam_vec];
-int total_utilizados=-1;
+int firstEmptyCell=0;
+int currentValue=0;
 const unsigned long num_items = 50;
-sem_t producerSem,consumerSem;
+sem_t producerSem,consumerSem,mutex;
 
-int producir_dato(){
+//************************************************//
+
+void * producer( void *){
+  for(unsigned i=0;i<num_items;i++){
+
+    sem_wait(&producerSem);
+
+      sem_wait(&mutex);
+        vector[firstEmptyCell]=currentValue++;
+        firstEmptyCell++;
+      sem_post(&mutex);
+
+    sem_post(&consumerSem);
+  }
+  return NULL;
 }
 
 //************************************************//
 
-void consumir_dato( int dato ){
-}
+void * consumer( void *){
+  for(unsigned i=0;i<num_items;i++){
 
-//************************************************//
+    sem_wait(&consumerSem);
 
-void producer(){
+      sem_wait(&mutex);
+        --firstEmptyCell;
+        cout<< "Consuming - "<<vector[firstEmptyCell]<<endl;
+      sem_post(&mutex);
 
-}
-
-//************************************************//
-
-void consumer(){
+    sem_post(&producerSem);
+  }
+  return NULL;
 
 }
 
@@ -55,8 +71,9 @@ int main(){
 
 	pthread_t producerThread, consumerThread ;
 
-	sem_init(&producerSem,0,0);
+	sem_init(&producerSem,0,10);
 	sem_init(&consumerSem,0,0);
+  sem_init(&mutex,0,1);
 
 	pthread_create(&producerThread,NULL,producer,NULL);
 	pthread_create(&consumerThread,NULL,consumer,NULL);
@@ -64,8 +81,9 @@ int main(){
 	pthread_join(producerThread,NULL);
 	pthread_join(consumerThread,NULL);
 
-	sem_destroy( &producerSem );
-	sem_destroy( &consumerSem );
+	sem_destroy(&producerSem);
+	sem_destroy(&consumerSem);
+  sem_destroy(&mutex);
 
 	return 0;
 }
