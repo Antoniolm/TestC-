@@ -17,14 +17,55 @@
 // **
 // *********************************************************************
 
-#include <stdlib.h>
 #include <iostream>
-#include "semaphore.h"
+#include <pthread.h>
+#include <semaphore.h>
 
 using namespace std;
 
- int main(void)
- {
-   cout<< "Testing"<<endl;
-   return 0;
- }
+const int tam_vec=10;
+int vector[tam_vec];
+int total_utilizados=-1;
+const unsigned long num_items = 50;
+sem_t producerSem,consumerSem;
+
+int producir_dato(){
+}
+
+//************************************************//
+
+void consumir_dato( int dato ){
+}
+
+//************************************************//
+
+void producer(){
+
+}
+
+//************************************************//
+
+void consumer(){
+
+}
+
+//************************************************//
+
+int main(){
+
+	pthread_t producerThread, consumerThread ;
+
+	sem_init(&producerSem,0,0);
+	sem_init(&consumerSem,0,0);
+
+	pthread_create(&producerThread,NULL,producer,NULL);
+	pthread_create(&consumerThread,NULL,consumer,NULL);
+
+	pthread_join(producerThread,NULL);
+	pthread_join(consumerThread,NULL);
+
+	sem_destroy( &producerSem );
+	sem_destroy( &consumerSem );
+
+	return 0;
+}
