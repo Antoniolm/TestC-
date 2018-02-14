@@ -9,8 +9,8 @@ TARGET = main
 
 all: $(TARGET)
 
-$(TARGET): $(TARGET).cpp
-	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).cpp -pthread -std=c++0x
+$(TARGET): $(TARGET).cpp threadPackage/*
+	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).cpp threadPackage/* -pthread -std=c++0x
 
 clean:
 	$(RM) $(TARGET)
