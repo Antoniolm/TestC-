@@ -32,17 +32,6 @@ Consumer::~Consumer(){
 
 //************************************************//
 
-void Consumer::initParameters(int * aVector,int * aFirstCell, int numItems, sem_t * prodSem, sem_t * consSem, sem_t * mutex_sem){
-  vector=aVector;
-  firstEmptyCell=aFirstCell;
-  num_items=numItems;
-  producerSem=prodSem;
-  consumerSem=consSem;
-  mutex=mutex_sem;
-}
-
-//************************************************//
-
 void Consumer::run(){
 
   for(unsigned i=0;i<num_items;i++){
@@ -56,10 +45,4 @@ void Consumer::run(){
 
     sem_post(producerSem);
   }
-}
-
-//************************************************//
-
-void Consumer::start(){
-  thread=std::thread( [this] { this->run(); } );
 }

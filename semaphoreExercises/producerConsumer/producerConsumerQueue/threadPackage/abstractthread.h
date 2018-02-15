@@ -17,27 +17,25 @@
 // **
 // *********************************************************************
 
-#ifndef CONSUMER_H
-#define CONSUMER_H
+#ifndef ABSTRACTTHREAD_H
+#define ABSTRACTTHREAD_H
 
 #include <string>
 #include <iostream>
-#include "abstractthread.h"
+#include <thread>
+#include <semaphore.h>
 
 using namespace std;
 
-class Consumer : public AbstractThread{
+class AbstractThread {
 public:
-
-  //////////////////////////////////////////////////////////////////////////
-  /** Constructor */
-  //////////////////////////////////////////////////////////////////////////
-  Consumer();
 
   //////////////////////////////////////////////////////////////////////////
   /** Destructor */
   //////////////////////////////////////////////////////////////////////////
-  virtual ~Consumer();
+  virtual ~AbstractThread();
+
+  void initParameters(int * aVector,int * aFirstCell, int numItems, sem_t * prodSem, sem_t * consSem, sem_t * mutex_sem);
 
   //////////////////////////////////////////////////////////////////////////
   /**
@@ -45,12 +43,20 @@ public:
    *  \return
    */
   //////////////////////////////////////////////////////////////////////////
-  void run();
+  virtual void run();
+
+  void start();
 
 protected:
-
+  std::thread thread;
+  int * vector;
+  int *firstEmptyCell;
+  long num_items;
+  sem_t * producerSem, * consumerSem, * mutex;
+  
 private:
+
 
 };
 
-#endif //CONSUMER_H
+#endif //ABSTRACTTHREAD_H

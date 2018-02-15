@@ -17,40 +17,21 @@
 // **
 // *********************************************************************
 
-#ifndef CONSUMER_H
-#define CONSUMER_H
+#include "supplier.h"
 
-#include <string>
-#include <iostream>
-#include "abstractthread.h"
+Supplier::Supplier(){ 
 
-using namespace std;
+}
 
-class Consumer : public AbstractThread{
-public:
+//************************************************//
 
-  //////////////////////////////////////////////////////////////////////////
-  /** Constructor */
-  //////////////////////////////////////////////////////////////////////////
-  Consumer();
+Supplier::~Supplier(){
+  if (thread.joinable())
+    thread.join();
+}
 
-  //////////////////////////////////////////////////////////////////////////
-  /** Destructor */
-  //////////////////////////////////////////////////////////////////////////
-  virtual ~Consumer();
+//************************************************//
 
-  //////////////////////////////////////////////////////////////////////////
-  /**
-   *  It will ran in the thread
-   *  \return
-   */
-  //////////////////////////////////////////////////////////////////////////
-  void run();
+void Supplier::run(){
 
-protected:
-
-private:
-
-};
-
-#endif //CONSUMER_H
+}

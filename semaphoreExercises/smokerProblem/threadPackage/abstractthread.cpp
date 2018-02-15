@@ -17,40 +17,26 @@
 // **
 // *********************************************************************
 
-#ifndef CONSUMER_H
-#define CONSUMER_H
-
-#include <string>
-#include <iostream>
 #include "abstractthread.h"
 
-using namespace std;
+AbstractThread::~AbstractThread(){
+  if (thread.joinable())
+    thread.join();
+}
 
-class Consumer : public AbstractThread{
-public:
+//************************************************//
 
-  //////////////////////////////////////////////////////////////////////////
-  /** Constructor */
-  //////////////////////////////////////////////////////////////////////////
-  Consumer();
+void AbstractThread::initParameters(){
+}
 
-  //////////////////////////////////////////////////////////////////////////
-  /** Destructor */
-  //////////////////////////////////////////////////////////////////////////
-  virtual ~Consumer();
+//************************************************//
 
-  //////////////////////////////////////////////////////////////////////////
-  /**
-   *  It will ran in the thread
-   *  \return
-   */
-  //////////////////////////////////////////////////////////////////////////
-  void run();
+void AbstractThread::run(){
 
-protected:
+}
 
-private:
+//************************************************//
 
-};
-
-#endif //CONSUMER_H
+void AbstractThread::start(){
+  thread=std::thread( [this] { this->run(); } );
+}

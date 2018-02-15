@@ -32,17 +32,6 @@ Producer::~Producer(){
 
 //************************************************//
 
-void Producer::initParameters(int * aVector,int * aFirstCell, int numItems, sem_t * prodSem, sem_t * consSem, sem_t * mutex_sem){
-  vector=aVector;
-  firstEmptyCell=aFirstCell;
-  num_items=numItems;
-  producerSem=prodSem;
-  consumerSem=consSem;
-  mutex=mutex_sem;
-}
-
-//************************************************//
-
 void Producer::run(){
   int currentValue=0;
 
@@ -57,10 +46,4 @@ void Producer::run(){
 
     sem_post(consumerSem);
   }
-}
-
-//************************************************//
-
-void Producer::start(){
-  thread=std::thread( [this] { this->run(); } );
 }

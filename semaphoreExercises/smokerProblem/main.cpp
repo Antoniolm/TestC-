@@ -17,40 +17,36 @@
 // **
 // *********************************************************************
 
-#ifndef CONSUMER_H
-#define CONSUMER_H
-
-#include <string>
 #include <iostream>
-#include "abstractthread.h"
+#include <stdlib.h>
+#include <thread>
+#include <semaphore.h>
+#include "threadPackage/smoker.h"
+#include "threadPackage/supplier.h"
 
 using namespace std;
 
-class Consumer : public AbstractThread{
-public:
+int main(){
 
-  //////////////////////////////////////////////////////////////////////////
-  /** Constructor */
-  //////////////////////////////////////////////////////////////////////////
-  Consumer();
+  Smoker * smoker1=new Smoker();
+  Smoker * smoker2=new Smoker();
+  Smoker * smoker3=new Smoker();
+  Supplier * supplier=new Supplier();
 
-  //////////////////////////////////////////////////////////////////////////
-  /** Destructor */
-  //////////////////////////////////////////////////////////////////////////
-  virtual ~Consumer();
+  smoker1->initParameters();
+  smoker2->initParameters();
+  smoker3->initParameters();
+  supplier->initParameters();
 
-  //////////////////////////////////////////////////////////////////////////
-  /**
-   *  It will ran in the thread
-   *  \return
-   */
-  //////////////////////////////////////////////////////////////////////////
-  void run();
+  smoker1->start();
+  smoker2->start();
+  smoker3->start();
+  supplier->start();
 
-protected:
+  delete smoker1;
+  delete smoker2;
+  delete smoker3;
+  delete supplier;
 
-private:
-
-};
-
-#endif //CONSUMER_H
+	return 0;
+}

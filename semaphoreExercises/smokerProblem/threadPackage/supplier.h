@@ -17,8 +17,8 @@
 // **
 // *********************************************************************
 
-#ifndef CONSUMER_H
-#define CONSUMER_H
+#ifndef SUPPLIER_H
+#define SUPPLIER_H
 
 #include <string>
 #include <iostream>
@@ -26,18 +26,18 @@
 
 using namespace std;
 
-class Consumer : public AbstractThread{
+class Supplier : public AbstractThread{
 public:
 
   //////////////////////////////////////////////////////////////////////////
   /** Constructor */
   //////////////////////////////////////////////////////////////////////////
-  Consumer();
+  Supplier();
 
   //////////////////////////////////////////////////////////////////////////
   /** Destructor */
   //////////////////////////////////////////////////////////////////////////
-  virtual ~Consumer();
+  virtual ~Supplier();
 
   //////////////////////////////////////////////////////////////////////////
   /**
@@ -53,4 +53,4 @@ private:
 
 };
 
-#endif //CONSUMER_H
+#endif //SUPPLIER_H

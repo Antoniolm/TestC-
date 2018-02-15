@@ -17,40 +17,48 @@
 // **
 // *********************************************************************
 
-#ifndef CONSUMER_H
-#define CONSUMER_H
+#ifndef ABSTRACTTHREAD_H
+#define ABSTRACTTHREAD_H
 
 #include <string>
 #include <iostream>
-#include "abstractthread.h"
+#include <thread>
+#include <semaphore.h>
 
 using namespace std;
 
-class Consumer : public AbstractThread{
+class AbstractThread {
 public:
-
-  //////////////////////////////////////////////////////////////////////////
-  /** Constructor */
-  //////////////////////////////////////////////////////////////////////////
-  Consumer();
 
   //////////////////////////////////////////////////////////////////////////
   /** Destructor */
   //////////////////////////////////////////////////////////////////////////
-  virtual ~Consumer();
+  virtual ~AbstractThread();
+
+  void initParameters();
 
   //////////////////////////////////////////////////////////////////////////
   /**
-   *  It will ran in the thread
+   *  Method that will executed in the thread
    *  \return
    */
   //////////////////////////////////////////////////////////////////////////
-  void run();
+  virtual void run();
+
+  //////////////////////////////////////////////////////////////////////////
+  /**
+   *  It will start the thread
+   *  \return
+   */
+  //////////////////////////////////////////////////////////////////////////
+  void start();
 
 protected:
+  std::thread thread;
 
 private:
 
+
 };
 
-#endif //CONSUMER_H
+#endif //ABSTRACTTHREAD_H
