@@ -19,82 +19,38 @@
 
 #include <iostream>
 #include <stdlib.h>
-#include <pthread.h>
+#include <thread>
 #include <semaphore.h>
-#include "threadPackage/thread.h"
+#include "threadPackage/consumer.h"
+#include "threadPackage/producer.h"
 
 using namespace std;
 
-//************************************************//
-
-void * producer( void * args ){
-  thread_args *elements = (struct thread_args *)args;
-  int currentValue=0;
-
-  for(unsigned i=0;i<elements->num_items;i++){
-
-    sem_wait(elements->producerSem);
-
-      sem_wait(elements->mutex);
-        elements->vector[(*elements->firstEmptyCell)]=currentValue++;
-        (*elements->firstEmptyCell)++;
-      sem_post(elements->mutex);
-
-    sem_post(elements->consumerSem);
-  }
-  return NULL;
-}
-
-//************************************************//
-
-void * consumer( void * args){
-  thread_args *elements = (struct thread_args *)args;
-
-  for(unsigned i=0;i<elements->num_items;i++){
-
-    sem_wait(elements->consumerSem);
-
-      sem_wait(elements->mutex);
-        --(*elements->firstEmptyCell);
-        cout<< "Consuming - "<<elements->vector[(*elements->firstEmptyCell)]<<endl;
-      sem_post(elements->mutex);
-
-    sem_post(elements->producerSem);
-  }
-  return NULL;
-
-}
-
-//************************************************//
-
 int main(){
 
-  const int tam_vec=10;
   int * vector;
+  const int tam_vec=10;
   int firstEmptyCell=0;
   const unsigned long num_items = 50;
   sem_t producerSem,consumerSem,mutex;
-	pthread_t producerThread, consumerThread ;
-  thread_args args;
 
-	sem_init(&producerSem,0,10);
+  Consumer * consumer=new Consumer();
+  Producer * producer=new Producer();
+  vector = (int*) malloc(tam_vec * sizeof(int));
+
+	sem_init(&producerSem,0,tam_vec);
 	sem_init(&consumerSem,0,0);
   sem_init(&mutex,0,1);
 
-  //Load args
-  vector = (int*) malloc(tam_vec * sizeof(int));
-  args.vector=vector;
-  args.num_items=num_items;
-  args.firstEmptyCell=&firstEmptyCell;
-  args.producerSem=&producerSem;
-  args.consumerSem=&consumerSem;
-  args.mutex=&mutex;
+  consumer->initParameters(vector,&firstEmptyCell,num_items,&producerSem,&consumerSem,&mutex);
+  producer->initParameters(vector,&firstEmptyCell,num_items,&producerSem,&consumerSem,&mutex);
 
-	pthread_create(&producerThread,NULL,producer,&args);
-	pthread_create(&consumerThread,NULL,consumer,&args);
+  consumer->start();
+  producer->start();
 
-	pthread_join(producerThread,NULL);
-	pthread_join(consumerThread,NULL);
+  delete consumer;
+  delete producer;
+
 
 	sem_destroy(&producerSem);
 	sem_destroy(&consumerSem);

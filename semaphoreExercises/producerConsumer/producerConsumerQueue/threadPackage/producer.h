@@ -22,11 +22,12 @@
 
 #include <string>
 #include <iostream>
-#include "thread.h"
+#include <thread>
+#include <semaphore.h>
 
 using namespace std;
 
-class Producer {
+class Producer{
 public:
 
   //////////////////////////////////////////////////////////////////////////
@@ -39,33 +40,26 @@ public:
   //////////////////////////////////////////////////////////////////////////
   virtual ~Producer();
 
+  void initParameters(int * aVector,int * aFirstCell, int numItems, sem_t * prodSem, sem_t * consSem, sem_t * mutex_sem);
+
   //////////////////////////////////////////////////////////////////////////
   /**
    *  It will ran in the thread
    *  \return
    */
   //////////////////////////////////////////////////////////////////////////
-  void * run( void * args ){
-    struct thread_args *elements = (struct thread_args *)args;
-    int currentValue=0;
+  void run();
 
-    for(unsigned i=0;i<elements->num_items;i++){
-
-      sem_wait(elements->producerSem);
-
-        sem_wait(elements->mutex);
-          elements->vector[(*elements->firstEmptyCell)]=currentValue++;
-          (*elements->firstEmptyCell)++;
-        sem_post(elements->mutex);
-
-      sem_post(elements->consumerSem);
-    }
-    return NULL;
-  }
+  void start();
 
 protected:
 
 private:
+  std::thread thread;
+  int * vector;
+  int *firstEmptyCell;
+  long num_items;
+  sem_t * producerSem, * consumerSem, * mutex;
 
 };
 
