@@ -28,15 +28,22 @@ using namespace std;
 
 int main(){
 
-  Smoker * smoker1=new Smoker();
-  Smoker * smoker2=new Smoker();
-  Smoker * smoker3=new Smoker();
+  sem_t semPaper,semTobacoo,semMatch,semSupplier;
+
+  sem_init(&semPaper,0,0);
+	sem_init(&semTobacoo,0,0);
+  sem_init(&semMatch,0,0);
+  sem_init(&semSupplier,0,0);
+
+  Smoker * smoker1=new Smoker(TOBACCO);
+  Smoker * smoker2=new Smoker(PAPER);
+  Smoker * smoker3=new Smoker(MATCH);
   Supplier * supplier=new Supplier();
 
-  smoker1->initParameters();
-  smoker2->initParameters();
-  smoker3->initParameters();
-  supplier->initParameters();
+  smoker1->initParameters(&semPaper,&semTobacoo,&semMatch,&semSupplier);
+  smoker2->initParameters(&semPaper,&semTobacoo,&semMatch,&semSupplier);
+  smoker3->initParameters(&semPaper,&semTobacoo,&semMatch,&semSupplier);
+  supplier->initParameters(&semPaper,&semTobacoo,&semMatch,&semSupplier);
 
   smoker1->start();
   smoker2->start();
@@ -47,6 +54,11 @@ int main(){
   delete smoker2;
   delete smoker3;
   delete supplier;
+
+  sem_destroy(&semPaper);
+	sem_destroy(&semTobacoo);
+  sem_destroy(&semMatch);
+  sem_destroy(&semSupplier);
 
 	return 0;
 }

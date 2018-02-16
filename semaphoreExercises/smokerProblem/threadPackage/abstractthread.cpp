@@ -26,7 +26,11 @@ AbstractThread::~AbstractThread(){
 
 //************************************************//
 
-void AbstractThread::initParameters(){
+void AbstractThread::initParameters(sem_t * aSemPaper,sem_t * aSemTobacoo,sem_t * aSemMatch,sem_t * aSemSupplier){
+  semPaper=aSemPaper;
+  semTobacoo=aSemTobacoo;
+  semMatch=aSemMatch;
+  semSupplier=aSemSupplier;
 }
 
 //************************************************//

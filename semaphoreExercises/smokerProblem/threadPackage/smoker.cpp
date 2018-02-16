@@ -19,8 +19,8 @@
 
 #include "smoker.h"
 
-Smoker::Smoker(){
-
+Smoker::Smoker(RequiredMaterial aMat){
+  material=aMat;
 }
 
 //************************************************//

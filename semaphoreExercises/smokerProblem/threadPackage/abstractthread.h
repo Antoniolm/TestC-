@@ -27,6 +27,12 @@
 
 using namespace std;
 
+enum RequiredMaterial {
+  TOBACCO,
+  PAPER,
+  MATCH
+};
+
 class AbstractThread {
 public:
 
@@ -35,7 +41,7 @@ public:
   //////////////////////////////////////////////////////////////////////////
   virtual ~AbstractThread();
 
-  void initParameters();
+  void initParameters(sem_t * aSemPaper,sem_t * aSemTobacoo,sem_t * aSemMatch,sem_t * aSemSupplier);
 
   //////////////////////////////////////////////////////////////////////////
   /**
@@ -55,6 +61,7 @@ public:
 
 protected:
   std::thread thread;
+  sem_t * semPaper,* semTobacoo,* semMatch,* semSupplier;
 
 private:
 
