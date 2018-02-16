@@ -23,6 +23,9 @@
 #include <string>
 #include <iostream>
 #include "abstractthread.h"
+#include <time.h>
+#include <unistd.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -46,6 +49,8 @@ public:
    */
   //////////////////////////////////////////////////////////////////////////
   void run();
+
+  void smoke();
 
 protected:
 

@@ -19,7 +19,7 @@
 
 #include "supplier.h"
 
-Supplier::Supplier(){ 
+Supplier::Supplier(){
 
 }
 
@@ -33,5 +33,24 @@ Supplier::~Supplier(){
 //************************************************//
 
 void Supplier::run(){
+  RequiredMaterial material;
 
+  while(true){
+    material=(RequiredMaterial)(rand() % 3);
+    cout<< "Supplier element : "<< material<<endl;
+
+    switch(material){
+      case TOBACCO:
+        sem_post(semTobacoo);
+      break;
+      case PAPER:
+        sem_post(semPaper);
+      break;
+      case MATCH:
+        sem_post(semMatch);
+      break;
+    }
+    
+    sem_wait(semSupplier);
+  }
 }

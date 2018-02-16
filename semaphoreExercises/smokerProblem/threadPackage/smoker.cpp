@@ -33,5 +33,32 @@ Smoker::~Smoker(){
 //************************************************//
 
 void Smoker::run(){
+  while(true){
 
+    switch(material){
+      case TOBACCO:
+        sem_wait(semTobacoo);
+      break;
+      case PAPER:
+        sem_wait(semPaper);
+      break;
+      case MATCH:
+        sem_wait(semMatch);
+      break;
+    }
+
+    cout<< "Preparing cigarette"<<endl;
+    sem_post(semSupplier);
+    cout<< "Smoking... -Smoker:"<< material <<endl;
+    smoke();
+    cout<< "Stop smoking :"<< material<<endl;
+
+  }
+
+}
+
+//************************************************//
+
+void Smoker::smoke(){
+  usleep( 100 + (rand() % 1900) );
 }
